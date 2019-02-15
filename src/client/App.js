@@ -17,9 +17,9 @@ export default class App extends Component {
     return (
       <div>
         <FormComponent />
-        {username ? <h1>{`Hello ${username} and code`}</h1> : <h1>Loading.. please wait!</h1>}
-        <img src={ReactImage} alt="react" />
-        <h1>Yo!</h1>
+        {/* {username ? <h1>{`Hello ${username} and code`}</h1> : <h1>Loading.. please wait!</h1>} */}
+        {/* <img src={ReactImage} alt="react" /> */}
+        {/* <h1>Yo!</h1> */}
       </div>
     );
   }
