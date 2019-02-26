@@ -49,3 +49,5 @@ app.get('/test/:name', holidayController.myMiddleware, holidayController.withPar
 app.post('/create', holidayController.create);
 
 app.get('/create', holidayController.showForm);
+
+app.get('/create/:id', holidayController.updateRecord);
