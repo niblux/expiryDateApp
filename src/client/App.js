@@ -5,9 +5,14 @@ import FormComponent from './components/FormComponent';
 import DataTable from './components/DataTable';
 
 export default class App extends Component {
+
+  constructor(props) {
+    super(props);
+    const formValues = {};
+  }
+
   state = { 
-    username: null, 
-    values : {} 
+    username: null
   };
 
   componentDidMount() {
@@ -15,25 +20,31 @@ export default class App extends Component {
       .then(res => res.json())
       .then(user => this.setState({ username: user.username }));
   }
+  componentDidUpdate(){
+    console.log('state', this.state);
+  }
 
   sendFormValues = (values) => {
-    // const formValues = { ...this.state.formValues }
+    // Make copy , just Object.assign(obj, {});
+    const formValues = { ...this.state.values }
 
-    // formValues[values] = values;
+    // not sure what is going here. 
+    formValues[values] = values;
 
-    this.setState({ values })
-
-    // console.log('form values in parent', formValues);
-    console.log('STATE in parent', this.state.values);
+    this.setState({ formValues });
+    
+    console.log('formValues', formValues);
+    console.log('values (PARAM)', formValues);
   }
 
   render() {
     const { username } = this.state;
+    console.log('parent component', this.values);
     return (
       <div>
         <FormComponent sendFormValues={this.sendFormValues} />
-        <DataTable/>
-        {/* {username ? <h1>{`Hello ${username} and code`}</h1> : <h1>Loading.. please wait!</h1>} */}
+        <DataTable values={this.values} />
+        {/* {username ? <h1>{`Hello   ${username} and code`}</h1> : <h1>Loading.. please wait!</h1>} */}
         {/* <img src={ReactImage} alt="react" /> */}
         {/* <h1>Yo!</h1> */}
       </div>
