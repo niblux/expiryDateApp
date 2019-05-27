@@ -22,6 +22,20 @@ class FormComponent extends React.Component {
       endDate: new Date(),
       notes: ''
     };
+
+    // Moving state to parent component, only want form component to do submission 
+    // this.state = {
+    //   firstName: '',
+    //   lastName: '',
+    //   notes: '',
+    //   startDate: new Date(),
+    //   endDate: new Date()
+    // };
+  
+    // this.handleChange = this.handleChange.bind(this);
+    // this.handleDateChange = this.handleDateChange.bind(this);
+    // the above binding makes both functions this apply to  the formcomponent.
+    // not sure if this is needed. 
   }
   
 
@@ -62,7 +76,7 @@ class FormComponent extends React.Component {
 }
   updateForm = e => {
     e.preventDefault();
-    this.postData(`http://localhost:8080/create?${id}`, "PUT", values)
+    this.postData('http://localhost:8080/create', "PUT", values)
     .then(data => console.log('Updated successfully : response', data))
     .catch(error => console.log(error));
   }
@@ -73,8 +87,8 @@ class FormComponent extends React.Component {
 
     // Adding the form data to values object.
     this.values = {
-      firstName: this.firstName.current.value,
-      lastName: this.lastName.current.value,
+      name: this.firstName.current.value,
+      surname: this.lastName.current.value,
       startDate: new Date(),
       endDate: new Date(),
       notes: this.notes.current.value
@@ -88,6 +102,23 @@ class FormComponent extends React.Component {
     this.postData('http://localhost:8080/create', "POST" , this.values)
       .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
       .catch(error => console.error(error));
+
+    // axios.post(`http://localhost:8080/create`, this.state)
+    //   .then(res => {
+    //     console.log("response", res);
+    //     console.log(res.data);
+    //   })
+
+    // axios.post('http://localhost:8080/create', {
+    //   data:this.state
+    // })
+    //   .then(function(response) {
+    //     console.log(response);
+    // })
+    //   .catch(function(error) {
+    //     console.log(error);
+    // });
+
 }
 
   render() {

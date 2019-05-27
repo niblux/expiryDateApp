@@ -8,11 +8,14 @@ export default class App extends Component {
 
   constructor(props) {
     super(props);
-    const formValues = {};
+    const values = {};
   }
 
   state = { 
-    username: null
+    username: null, 
+    values : {
+      name:'nabil'
+    } 
   };
 
   componentDidMount() {
@@ -20,21 +23,20 @@ export default class App extends Component {
       .then(res => res.json())
       .then(user => this.setState({ username: user.username }));
   }
-  componentDidUpdate(){
-    console.log('state', this.state);
-  }
 
   sendFormValues = (values) => {
-    // Make copy , just Object.assign(obj, {});
-    const formValues = { ...this.state.values }
+    // const formValues = { ...this.state.formValues }
+    this.values = values;
 
-    // not sure what is going here. 
-    formValues[values] = values;
+    // formValues[values] = values;
 
-    this.setState({ formValues });
+    // this.setState({ values:values })
+
+    // console.log('form values in parent', formValues);
+    // TODO : This is being received , but not being set to the state correctkly ????
     
-    console.log('formValues', formValues);
-    console.log('values (PARAM)', formValues);
+    // console.log('STATE in parent', this.state.values);
+    // console.log('parent component', this.values);
   }
 
   render() {
@@ -43,7 +45,7 @@ export default class App extends Component {
     return (
       <div>
         <FormComponent sendFormValues={this.sendFormValues} />
-        <DataTable values={this.props.state} />
+        <DataTable values={this.values} />
         {/* {username ? <h1>{`Hello   ${username} and code`}</h1> : <h1>Loading.. please wait!</h1>} */}
         {/* <img src={ReactImage} alt="react" /> */}
         {/* <h1>Yo!</h1> */}

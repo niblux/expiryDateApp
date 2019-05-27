@@ -24,10 +24,11 @@ exports.withParams = (req, res) => {
 
 exports.create = async (req, res) => {
   const holiday = new Holiday(req.body);
-  // so your saying await , to say await until i do this action with Await in front before u carry on 
-  // not nessacrily , basically the await returns a promise from an asynchrounous fucntion
   await holiday.save(function(err) {
-    if (err) { console.log('Error saving model'); return err }
+    if (err) { 
+      console.log('Error saving model'); 
+      return err 
+    }
     console.log('saved');
   });
   res.json(req.params);
@@ -50,14 +51,13 @@ exports.updateRecord = async (req, res)  => {
   // 1. find the id we want to update 
   console.log('test params', req.params);
 
-  const record = await Holiday.findById({ _id: req.params.id }, function (err) {
-    console.log(res.body);
+  const record = await Holiday.findById({ _id: req.params.id }, function (err){
+      console.log(res.body);
   });
 
-  res.send(record)
+  res.send(record);
+  // 2. Update that record
 
-  // 2. Update that record 
-  
 
   // 3. Return the corrected result.
 }
