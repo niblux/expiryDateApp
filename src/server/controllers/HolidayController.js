@@ -24,8 +24,7 @@ exports.withParams = (req, res) => {
 
 exports.create = async (req, res) => {
   const holiday = new Holiday(req.body);
-  // so your saying await , to say await until i do this action with Await in front before u carry on 
-  // not nessacrily , basically the await returns a promise from an asynchrounous fucntion
+  // await resolves the promise immediatley.
   await holiday.save(function(err) {
     if (err) { console.log('Error saving model'); return err }
     console.log('saved');
