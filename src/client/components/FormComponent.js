@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import React from 'react';
 
 class FormComponent extends React.Component {
@@ -18,8 +19,7 @@ class FormComponent extends React.Component {
     };
   }
 
-
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -34,17 +34,33 @@ class FormComponent extends React.Component {
     });
   };
 
-  postData = (url = ``, methodType, data = {}) => {
+  postData = (url = '', methodType, data = {}) => {
     return fetch(url, {
       method: methodType,
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      redirect: "follow",
-      referrer: "no-referrer",
+      redirect: 'follow',
+      referrer: 'no-referrer',
+      body: JSON.stringify(data),
+    })
+      .then(response => response.json()); // parses response to JSON
+  }
+
+  postData = (url = '', methodType, data = {}) => {
+    return fetch(url, {
+      method: methodType,
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'follow',
+      referrer: 'no-referrer',
       body: JSON.stringify(data),
     })
       .then(response => response.json()); // parses response to JSON
@@ -59,6 +75,7 @@ class FormComponent extends React.Component {
   }
 
   submitForm = e => {
+    console.log('clicking');
 
     e.preventDefault();
 
@@ -85,14 +102,13 @@ class FormComponent extends React.Component {
     return (
       <div>
         <form onSubmit={this.submitForm}>
-          <input type="text" inputRef={this.firstName} id="firstName" name="firstName" />
-          <input type="text" inputRef={this.lastName} id="lastName" name="lastName" />
-          <input type="date" inputRef={this.startDate} id="startDate" type="date" />
-          <input type="date" inputRef={this.endDate} id="endDate" type="date" />
-          <textarea inputRef={this.notes} id="notes" type="text" placeholder="Notes ..."></textarea>
+          <label>Food Item</label>
+          <input type="text" ref={this.firstName} id="firstName" name="firstName" />
+          <input type="text" ref={this.lastName} id="lastName" name="lastName" />
+          <input type="date" ref={this.startDate} id="startDate" type="date" />
+          <input type="date" ref={this.endDate} id="endDate" type="date" />
+          <textarea ref={this.notes} id="notes" type="text" placeholder="Notes ..."></textarea>
         </form>
-
-        <button type="submit">Submit</button>
       </div>
     );
   }
