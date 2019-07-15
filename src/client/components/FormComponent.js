@@ -32,7 +32,7 @@ class FormComponent extends React.Component {
     });
   };
 
-  postData = (url = '', methodType, data = {}) => {
+  makeRequest = (url = '', methodType, data = {}) => {
     return fetch(url, {
       method: methodType,
       mode: 'cors',
@@ -50,8 +50,15 @@ class FormComponent extends React.Component {
 
   updateForm = e => {
     e.preventDefault();
-    this.postData('http://localhost:8080/create', "PUT", values)
+    this.makeRequest('http://localhost:8080/create', "PUT", values)
       .then(data => console.log('Updated successfully : response', data))
+      .catch(error => console.log(error));
+  }
+
+  getFormData = e => {
+    e.preventDefault();
+    this.makeRequest('http://localhost:8080/create', "GET", values)
+      .then(data => console.log('Retrieved Data : response', data))
       .catch(error => console.log(error));
   }
 
@@ -71,7 +78,7 @@ class FormComponent extends React.Component {
     // This will send the values via prop drilling to parent app component. 
     this.props.sendFormValues(this.values);
 
-    this.postData('http://localhost:8080/create', "POST", this.values)
+    this.makeRequest('http://localhost:8080/create', "POST", this.values)
       .then(data => console.log(JSON.stringify('POSTED DATA', data)))
       .catch(error => console.error(error));
   }
