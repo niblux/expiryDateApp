@@ -76,10 +76,10 @@ class FormComponent extends React.Component {
     console.log('submitted values', this.values);
 
     // This will send the values via prop drilling to parent app component. 
-    this.props.sendFormValues(this.values);
+    // this.props.sendFormValues(this.values);
 
     this.makeRequest('http://localhost:8080/create', "POST", this.values)
-      .then(data => console.log(JSON.stringify('POSTED DATA', data)))
+      .then(data => console.log('POSTED DATA', data))
       .catch(error => console.error(error));
   }
 

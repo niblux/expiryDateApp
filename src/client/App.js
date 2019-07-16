@@ -1,37 +1,29 @@
 import './app.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FormComponent from './components/FormComponent';
 import Header from './components/Header';
 
 
-const App = (props) => {
-
-  let formValues = [];
-
-  const sendFormValues = (values) => {
-    this.setState({ formValues: values });
-  };
+const App = async (props) => {
 
   const initData = async () => {
     const request = await fetch('http://localhost:8080/items');
     const data = await request.json();
+    console.log('GET', data)
+
     return data;
   };
 
-  console.log('data', initData());
+  const data = await initData();
+
+  setValues(data);
+
+  console.log('requested out of GET ', formValues);
 
 
-  // const [formItems, setItems] = useState(data);
-
-  // const formItems = formValues.map((item, i) => {
-  //   console.log('id', item._id);
-  //   console.log('name', item.name);
-  //   console.log('purchase', item.purchase);
-  //   console.log('expiryDate', item.expiryDate);
-  // });
-
-  // console.log('mapped values', setItems);
-
+  useEffect(() => {
+    initData();
+  });
 
   return (
     <>
@@ -55,7 +47,7 @@ const App = (props) => {
             <div className="col-md-6">
               <div className="card">
                 <div className="card-body">
-                  <FormComponent sendFormValues={sendFormValues} />
+                  <FormComponent />
                 </div>
               </div>
             </div>

@@ -1,5 +1,5 @@
 {
-  "name": "Expiry Date Application",
+  "name": "ExpiryDateApplication",
   "version": "1.0.0",
   "description": "An application to store your favourite food purchases and be reminded of the expiry date",
   "main": "src/server/index.js",
