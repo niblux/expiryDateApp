@@ -13,9 +13,8 @@ const FormComponent = props => {
 
   const [items, setItems] = useState(initItems)
 
-  const handleChange = (e) => {
-    const { name, value } = event.target;
-
+  const handleChange = e => {
+    const { name, value } = e.target;
     setItems({ ...items, [name]: value });
   };
 

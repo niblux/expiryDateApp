@@ -4,26 +4,24 @@ import FormComponent from './components/FormComponent';
 import Header from './components/Header';
 
 
-const App = async (props) => {
+const App = (props) => {
 
-  const initData = async () => {
-    const request = await fetch('http://localhost:8080/items');
-    const data = await request.json();
-    console.log('GET', data)
+  let formValues = []
 
-    return data;
-  };
-
-  const data = await initData();
-
-  setValues(data);
-
-  console.log('requested out of GET ', formValues);
-
+  const [data, setValues] = useState(formValues);
 
   useEffect(() => {
-    initData();
-  });
+    const fetchData = async () => {
+      const request = await fetch('http://localhost:8080/items');
+      const data = await request.json();
+      setValues(data);
+    };
+    fetchData();
+  }, []);
+
+  // const deleteUser = (id) => {
+  //   setValues(data.filter(item => item.id != id));
+  // }
 
   return (
     <>
@@ -32,7 +30,7 @@ const App = async (props) => {
         <section className="jumbotron text-center">
           <div className="container">
             <h1 className="jumbotron-heading">Expiry App</h1>
-            <p className="lead text-muted">Basic application used to store all your food item purchases perishables, spices, nuts, seeds, formulas etc. The app is
+            <p className="lead te§xt-muted">Basic application used to store all your food item purchases perishables, spices, nuts, seeds, formulas etc. The app is
               designed to remind you when the item is expiring so you will always know when to top up.</p>
             <p>
               <a href="#" className="btn btn-primary my-2">Main call to action</a>
@@ -52,7 +50,6 @@ const App = async (props) => {
               </div>
             </div>
             <div className="col-md-6">
-              <button className="btn btn-info" onClick={initData}>Refresh</button>
               <table class="table table-bordered">
                 <thead>
                   <tr>
@@ -63,9 +60,15 @@ const App = async (props) => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-
-                  </tr>
+                  {data.length > 0 ? (data.map(item => (
+                    <tr key={item.id}>
+                      <td>{item.name}</td>
+                      <td>{item.purchase}</td>
+                      <td>{item.expiryDate}</td>
+                      <td>{item.notes}</td>
+                      {/* <td><button onClick={deleteUser(item.id)} type="button" class="btn btn-danger">Delete</button></td> */}
+                    </tr>
+                  ))) : (<tr> No items </tr>)}
                 </tbody>
               </table>
             </div>
