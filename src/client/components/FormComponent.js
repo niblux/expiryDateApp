@@ -1,38 +1,25 @@
 /* eslint-disable no-param-reassign */
-import React from 'react';
+import React, { useState } from 'react';
 
-class FormComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.foodName = React.createRef();
-    this.foodType = React.createRef();
-    this.purchaseDate = React.createRef();
-    this.expiryDate = React.createRef();
-    this.notes = React.createRef();
+const FormComponent = props => {
 
-    const values = {
-      name: '',
-      surname: '',
-      purchaseDate: '',
-      expiryDate: '',
-      notes: ''
-    };
-  }
+  let foodName = React.createRef();
+  let foodType = React.createRef();
+  let purchaseDate = React.createRef();
+  let expiryDate = React.createRef();
+  let notes = React.createRef();
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
+  let initItems = { name: '', type: '', purchase: '', expiryDate: '', notes: '' };
+
+  const [items, setItems] = useState(initItems)
+
+  const handleChange = (e) => {
+    const { name, value } = event.target;
+
+    setItems({ ...items, [name]: value });
   };
 
-  handleDateChange = (dateName, dateValue) => {
-    dateValue = dateName === 'purchaseDate' ? (this.values.purchaseDate = dateValue) : (this.values.expiryDate = dateValue);
-    this.setState({
-      [dateName]: dateValue
-    });
-  };
-
-  makeRequest = (url = '', methodType, data = {}) => {
+  const makeRequest = (url = '', methodType, data = {}) => {
     return fetch(url, {
       method: methodType,
       mode: 'cors',
@@ -48,62 +35,54 @@ class FormComponent extends React.Component {
       .then(response => response.json()); // parses response to JSON
   }
 
-  updateForm = e => {
+  const getFormData = e => {
     e.preventDefault();
-    this.makeRequest('http://localhost:8080/create', "PUT", values)
-      .then(data => console.log('Updated successfully : response', data))
-      .catch(error => console.log(error));
-  }
-
-  getFormData = e => {
-    e.preventDefault();
-    this.makeRequest('http://localhost:8080/create', "GET", values)
+    makeRequest('http://localhost:8080/create', "GET", initItems)
       .then(data => console.log('Retrieved Data : response', data))
       .catch(error => console.log(error));
   }
 
-  submitForm = e => {
+  const submitForm = e => {
     e.preventDefault();
     // Adding the form data to values object.
-    this.values = {
-      name: this.foodName.current.value,
-      type: this.foodType.current.value,
-      purchase: this.state.purchaseDate,
-      expiryDate: this.state.expiryDate,
-      notes: this.notes.current.value
+    initItems = {
+      name: foodName.current.value,
+      type: foodType.current.value,
+      purchase: items.purchaseDate,
+      expiryDate: items.expiryDate,
+      notes: notes.current.value
     }
 
-    console.log('submitted values', this.values);
+    console.log('submitted values', initItems);
 
     // This will send the values via prop drilling to parent app component. 
     // this.props.sendFormValues(this.values);
 
-    this.makeRequest('http://localhost:8080/create', "POST", this.values)
+    makeRequest('http://localhost:8080/create', "POST", initItems)
       .then(data => console.log('POSTED DATA', data))
       .catch(error => console.error(error));
   }
 
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.submitForm}>
-          <div className="form-group">
-            <label htmlFor="foodName">Food Item Name</label>
-            <input onChange={this.handleChange} type="text" className="form-control" ref={this.foodName} id="foodName" name="foodName" />
-            <label htmlFor="foodName">Food Type</label>
-            <input onChange={this.handleChange} type="text" className="form-control" ref={this.foodType} id="foodType" name="foodType" />
-            <label htmlFor="foodName">Purchase Date</label>
-            <input onChange={this.handleChange} type="date" className="form-control" ref={this.purchaseDate} id="purchaseDate" name="purchaseDate" type="date" />
-            <label htmlFor="foodName">Expiry Date</label>
-            <input onChange={this.handleChange} type="date" className="form-control" ref={this.expiryDate} id="expiryDate" name="expiryDate" type="date" />
-            <label htmlFor="foodName">Addtional Notes</label>
-            <textarea className="form-control" ref={this.notes} id="notes" type="text" name="notes" placeholder="Notes ..."></textarea>
-            <button className="btn btn-info mt-2">Submit</button>
-          </div>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <form onSubmit={submitForm}>
+        <div className="form-group">
+          <label htmlFor="foodName">Food Item Name</label>
+          <input onChange={handleChange} type="text" className="form-control" ref={foodName} id="foodName" name="foodName" />
+          <label htmlFor="foodName">Food Type</label>
+          <input onChange={handleChange} type="text" className="form-control" ref={foodType} id="foodType" name="foodType" />
+          <label htmlFor="foodName">Purchase Date</label>
+          <input onChange={handleChange} type="date" className="form-control" ref={purchaseDate} id="purchaseDate" name="purchaseDate" type="date" />
+          <label htmlFor="foodName">Expiry Date</label>
+          <input onChange={handleChange} type="date" className="form-control" ref={expiryDate} id="expiryDate" name="expiryDate" type="date" />
+          <label htmlFor="foodName">Addtional Notes</label>
+          <textarea className="form-control" ref={notes} id="notes" type="text" name="notes" placeholder="Notes ..."></textarea>
+          <button className="btn btn-info mt-2">Submit</button>
+        </div>
+      </form>
+    </div>
+  );
 }
+
 
 export default FormComponent;
