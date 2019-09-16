@@ -19,14 +19,6 @@ exports.items = (req, res) => {
   });
 };
 
-exports.testPage = (req, res) => {
-  res.render('index');
-};
-
-exports.withParams = (req, res) => {
-  res.json(req.params);
-};
-
 exports.create = async (req, res) => {
   const holiday = new Holiday(req.body);
   // so your saying await , to say await until i do this action with Await in front before u carry on
@@ -39,16 +31,15 @@ exports.create = async (req, res) => {
   console.log('POSTING', req.body);
 };
 
-exports.showForm = async (req, res) => {
+exports.delete = async (req, res) => {
+  Holiday.findByIdAndRemove(req.params.id, (err) => {
+    console.log('ID in backend', req.params.id);
 
-  // 1. Display data in a table (so it's easier to edit);
-
-  // 2. Create click event on frontend to capture id when editing
-
-  const results = await Holiday.find({});
-  res.send(results);
-  console.log('showform', results);
-};
+    if (err) { console.log('Error saving model'); return err; }
+    console.log('deleted');
+  });
+  res.json(req.params);
+}
 
 exports.updateRecord = async (req, res) => {
 
