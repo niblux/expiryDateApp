@@ -42,12 +42,8 @@ require('./models/holiday');
 // TODO: Place routes here for now
 app.get('/items', holidayController.items);
 
-app.get('/test', holidayController.testPage);
-
-app.get('/test/:name', holidayController.myMiddleware, holidayController.withParams);
-
 app.post('/create', holidayController.create);
 
-app.get('/create', holidayController.showForm);
+app.put('/create/:id', holidayController.updateRecord);
 
-app.get('/create/:id', holidayController.updateRecord);
+app.put('/delete/:id', holidayController.delete);
