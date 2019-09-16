@@ -34,13 +34,6 @@ const FormComponent = props => {
       .then(response => response.json()); // parses response to JSON
   }
 
-  const getFormData = e => {
-    e.preventDefault();
-    makeRequest('http://localhost:8080/create', "GET", initItems)
-      .then(data => console.log('Retrieved Data : response', data))
-      .catch(error => console.log(error));
-  }
-
   const submitForm = e => {
     e.preventDefault();
     // Adding the form data to values object.
@@ -53,9 +46,6 @@ const FormComponent = props => {
     }
 
     console.log('submitted values', initItems);
-
-    // This will send the values via prop drilling to parent app component. 
-    // this.props.sendFormValues(this.values);
 
     makeRequest('http://localhost:8080/create', "POST", initItems)
       .then(data => console.log('POSTED DATA', data))
