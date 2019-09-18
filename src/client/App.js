@@ -2,31 +2,38 @@ import './app.css';
 import React, { useState, useEffect } from 'react';
 import FormComponent from './components/FormComponent';
 import Header from './components/Header';
+import { makeRequest } from '../helpers'
+  
 
+const App = () => {
 
-const App = (props) => {
+  let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '' };
 
-  let formValues = []
+  const [items, setValues] = useState(initItems);
 
-  const [data, setValues] = useState(formValues);
+  const addItems = (e, payload) => {
+    e.preventDefault();
+    setValues([ ...items, payload ]);
+    makeRequest('http://localhost:8080/create', "POST", payload)
+      .then(data => console.log('POSTED DATA', data))
+      .catch(error => console.error(error));
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       const request = await fetch('http://localhost:8080/items');
       const data = await request.json();
-      console.log('GET', data)
       setValues(data);
     };
     fetchData();
   }, []);
 
   const deleteUser = async (id) => {
-    console.log(id);
       return fetch(`http://localhost:8080/delete/${id}`, {
         method: 'delete'
       }).then(response =>
         response.json().then(json => {
-          setValues(data.filter(item => item._id != id));
+          setValues(items.filter(item => item._id != id));
           return json;
         })
       );
@@ -54,12 +61,12 @@ const App = (props) => {
             <div className="col-md-4">
               <div className="card">
                 <div className="card-body">
-                  <FormComponent />
+                  <FormComponent addItems={addItems}/>
                 </div>
               </div>
             </div>
             <div className="col-md-8">
-              <table class="table table-bordered">
+              <table className="table table-bordered">
                 <thead>
                   <tr>
                     <th scope="col">Item Id</th>
@@ -70,15 +77,16 @@ const App = (props) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.length > 0 ? (data.map(item => (
+                  {items.length > 0 ? (items.map((item, index) => (
                     <tr key={item._id}>
-                      <td>{item.name}</td>
-                      <td>{item.purchase}</td>
+                      <td>{item.foodName}</td>
+                      <td>{item.foodType}</td>
+                      <td>{item.purchaseDate}</td>
                       <td>{item.expiryDate}</td>
                       <td>{item.notes}</td>
-                      <td><button onClick={() => deleteUser(item._id)} type="button" class="btn btn-danger">Delete</button></td>
+                      <td><button onClick={() => deleteUser(item._id)} type="button" className="btn btn-danger">Delete</button></td>
                     </tr>
-                  ))) : (<tr> No items </tr>)}
+                  ))) : (<tr><td key={0}>{'No Items'}</td></tr>)}
                 </tbody>
               </table>
             </div>
