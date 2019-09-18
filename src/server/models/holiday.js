@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const holidayModel = new mongoose.Schema({
-  name: String,
+  foodName: String,
   foodType: String,
-  purchase: Date,
+  purchaseDate: Date,
   expiryDate: Date,
   notes: String
 });
