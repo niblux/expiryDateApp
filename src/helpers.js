@@ -1,4 +1,4 @@
-const makeRequest = (url = '', methodType, data = {}) => {
+export const makeRequest = (url = '', methodType, data = {}) => {
     return fetch(url, {
         method: methodType,
         mode: 'cors',
@@ -12,6 +12,4 @@ const makeRequest = (url = '', methodType, data = {}) => {
         body: JSON.stringify(data),
     })
         .then(response => response.json()); // parses response to JSON
-}
-
-module.exports = makeRequest;
+};
