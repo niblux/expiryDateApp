@@ -46,4 +46,4 @@ app.post('/create', holidayController.create);
 
 app.put('/create/:id', holidayController.updateRecord);
 
-app.put('/delete/:id', holidayController.delete);
+app.delete('/delete/:id', holidayController.delete);

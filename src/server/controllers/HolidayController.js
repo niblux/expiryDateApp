@@ -13,7 +13,7 @@ exports.myMiddleware = (req, res, next) => {
 exports.items = (req, res) => {
   Holiday.find({}, function (err, items) {
     if (!err) {
-      console.log(items);
+      // console.log(items);
       res.send(JSON.stringify(items));
     } else { throw err; }
   });
@@ -28,10 +28,11 @@ exports.create = async (req, res) => {
     console.log('saved');
   });
   res.json(req.params);
-  console.log('POSTING', req.body);
+  // console.log('POSTING', req.body);
 };
 
 exports.delete = async (req, res) => {
+  console.log('id', req.params)
   Holiday.findByIdAndRemove(req.params.id, (err) => {
     console.log('ID in backend', req.params.id);
 
@@ -39,7 +40,7 @@ exports.delete = async (req, res) => {
     console.log('deleted');
   });
   res.json(req.params);
-}
+};
 
 exports.updateRecord = async (req, res) => {
 

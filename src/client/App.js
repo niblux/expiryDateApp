@@ -22,10 +22,14 @@ const App = (props) => {
 
   const deleteUser = async (id) => {
     console.log(id);
-    setValues(data.filter(item => item._id != id));
-    // const request = await fetch(`http://localhost:8080/delete/${id}`);
-    // const data = await request.json();
-    console.log('DATA >>', data);
+      return fetch(`http://localhost:8080/delete/${id}`, {
+        method: 'delete'
+      }).then(response =>
+        response.json().then(json => {
+          setValues(data.filter(item => item._id != id));
+          return json;
+        })
+      );
   }
 
   return (
