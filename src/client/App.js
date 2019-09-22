@@ -3,40 +3,72 @@ import React, { useState, useEffect } from 'react';
 import FormComponent from './components/FormComponent';
 import Header from './components/Header';
 import { makeRequest } from '../helpers'
-  
+
 
 const App = () => {
 
   let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '' };
 
   const [items, setValues] = useState(initItems);
+  const [editing, setEditing] = useState(false);
+  const [currentItem, setCurrentItem] = useState(initItems)
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues({ ...items, [name]: value });
+    // setCurrentItem({ ...items, [e.target.name]: e.target.value })
+  }
+
+  const editingRow = (item) => {
+    console.log('editing', item);
+
+    setEditing(true);
+    setCurrentItem({ foodName: item.foodName, foodType: item.foodType, purchaseDate: item.purchaseDate, expiryDate: item.expiryDate, notes: item.notes });
+  }
 
   const addItems = (e, payload) => {
+    console.log('PAYLOAD ADD', payload);
     e.preventDefault();
-    setValues([ ...items, payload ]);
+    setValues([...items, payload]);
     makeRequest('http://localhost:8080/create', "POST", payload)
       .then(data => console.log('POSTED DATA', data))
       .catch(error => console.error(error));
   }
 
+  const updateItems = async (currentItem) => {
+    console.log('fe item', currentItem);
+    setEditing(false);
+    // makeRequest(`http://localhost:8080/update/${updatedItem._id}`, "PUT", updatedItem)
+    //   .then(data => {
+    //     console.log('POSTED DATA', data)
+    //   })
+    //   .catch(error => console.error(error));
+    // setValues(items.map(item => (item._id === updatedItem._id ? updatedItem : item)))
+  }
+
+  useEffect(() => {
+    setCurrentItem(currentItem)
+  }, [currentItem]);
+
   useEffect(() => {
     const fetchData = async () => {
       const request = await fetch('http://localhost:8080/items');
       const data = await request.json();
+      console.log('data', data);
       setValues(data);
     };
     fetchData();
   }, []);
 
   const deleteUser = async (id) => {
-      return fetch(`http://localhost:8080/delete/${id}`, {
-        method: 'delete'
-      }).then(response =>
-        response.json().then(json => {
-          setValues(items.filter(item => item._id != id));
-          return json;
-        })
-      );
+    return fetch(`http://localhost:8080/delete/${id}`, {
+      method: 'delete'
+    }).then(response =>
+      response.json().then(json => {
+        setValues(items.filter(item => item._id != id));
+        return json;
+      })
+    );
   }
 
   return (
@@ -61,7 +93,7 @@ const App = () => {
             <div className="col-md-4">
               <div className="card">
                 <div className="card-body">
-                  <FormComponent addItems={addItems}/>
+                  <FormComponent addItems={addItems} />
                 </div>
               </div>
             </div>
@@ -69,8 +101,8 @@ const App = () => {
               <table className="table table-bordered">
                 <thead>
                   <tr>
-                    <th scope="col">Item Id</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Type</th>
                     <th scope="col">Purchase Date</th>
                     <th scope="col">Expiry Date</th>
                     <th scope="col">Notes</th>
@@ -79,12 +111,14 @@ const App = () => {
                 <tbody>
                   {items.length > 0 ? (items.map((item, index) => (
                     <tr key={item._id}>
-                      <td>{item.foodName}</td>
+                      <td>{editing ? <input type="text" onBlur={handleChange} defaultValue={item.foodName} /> : item.foodName}</td>
                       <td>{item.foodType}</td>
                       <td>{item.purchaseDate}</td>
                       <td>{item.expiryDate}</td>
                       <td>{item.notes}</td>
                       <td><button onClick={() => deleteUser(item._id)} type="button" className="btn btn-danger">Delete</button></td>
+                      <td><button onClick={() => editingRow(item)} type="button" className="btn btn-info">Edit</button></td>
+                      <td><button onClick={() => updateItems(currentItem)} type="button" className="btn btn-success">Save</button></td>
                     </tr>
                   ))) : (<tr><td key={0}>{'No Items'}</td></tr>)}
                 </tbody>

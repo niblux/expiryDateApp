@@ -34,24 +34,28 @@ exports.create = async (req, res) => {
 exports.delete = async (req, res) => {
   console.log('id', req.params)
   Holiday.findByIdAndRemove(req.params.id, (err) => {
-    console.log('ID in backend', req.params.id);
-
     if (err) { console.log('Error saving model'); return err; }
-    console.log('deleted');
   });
   res.json(req.params);
 };
 
 exports.updateRecord = async (req, res) => {
-
+  mongoose.set('useFindAndModify', false);
   // 1. find the id we want to update
-  console.log('test params', req.params);
+  console.log('test params id', req.params.id);
+  console.log('test request body', req.body);
 
-  const record = await Holiday.findById({ _id: req.params.id }, function (err) {
-    console.log(res.body);
-  });
+  let doc = await Holiday.findOneAndUpdate(req.params.id, req.body);
 
-  res.send(record);
+  console.log(doc);
+
+  // Holiday.findOneAndUpdate(req.params.id, req.body, (err) => {
+  //   if (err) { console.log('Error saving model'); return err; }
+  //   res.json(req.params);
+  //   console.log('>>> UPDATED', );
+  // }, { new: false });
+
+  // res.send(record);
 
   // 2. Update that record
 
