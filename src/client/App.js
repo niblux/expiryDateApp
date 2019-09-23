@@ -38,6 +38,11 @@ const App = () => {
   const updateItems = async (currentItem) => {
     console.log('fe item', currentItem);
     setEditing(false);
+    items.map(item => {
+      if(currentItem._id === item._id) {
+        setValues([...items, currentItem]);
+      }
+    });
     // makeRequest(`http://localhost:8080/update/${updatedItem._id}`, "PUT", updatedItem)
     //   .then(data => {
     //     console.log('POSTED DATA', data)
