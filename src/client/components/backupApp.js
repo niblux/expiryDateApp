@@ -1,17 +1,16 @@
 import './app.css';
 import React, { useState, useEffect } from 'react';
 import FormComponent from './components/FormComponent';
-import TableRow from './components/TableRow';
 import Header from './components/Header';
 import { makeRequest } from '../helpers'
 
 
 const App = () => {
 
-  let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '', editing:false };
+  let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '' };
 
   const [items, setValues] = useState(initItems);
-  const [editing, setEditing] = useState({value:'', isEditing:false});
+  const [editing, setEditing] = useState(false);
   const [currentItem, setCurrentItem] = useState(initItems)
 
   const handleChange = (e) => {
@@ -20,8 +19,14 @@ const App = () => {
   }
 
   const editingRow = (item) => {    
+    items.map((i, index) => {
+      if(i._id === item._id) {
+          console.log('stateful item', i);
+          console.log('item clicked', item._id);
+          console.log('row to be selected', items[index][item._id]);
+      }
+    })
 
-    
     // setEditing(true);
     // setCurrentItem({ foodName: item.foodName, foodType: item.foodType, purchaseDate: item.purchaseDate, expiryDate: item.expiryDate, notes: item.notes });
   }
@@ -114,7 +119,18 @@ const App = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <TableRow editing={editing} items={items} ></TableRow>
+                  {items.length > 0 ? (items.map((item, index) => (
+                    <tr key={item._id} onClick={() => editingRow(item)}>
+                      <td>{editing ? <input type="text" onBlur={handleChange} defaultValue={item.foodName} /> : item.foodName}</td>
+                      <td>{item.foodType}</td>
+                      <td>{item.purchaseDate}</td>
+                      <td>{item.expiryDate}</td>
+                      <td>{item.notes}</td>
+                      <td><button onClick={() => deleteUser(item._id)} type="button" className="btn btn-danger">Delete</button></td>
+                      {/* <td><button type="button" className="btn btn-info">Edit</button></td> */}
+                      <td><button onClick={() => updateItems(currentItem)} type="button" className="btn btn-success">Save</button></td>
+                    </tr>
+                  ))) : (<tr><td key={0}>{'No Items'}</td></tr>)}
                 </tbody>
               </table>
             </div>

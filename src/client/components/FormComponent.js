@@ -9,7 +9,7 @@ const FormComponent = props => {
   let expiryDate = React.createRef();
   let notes = React.createRef();
 
-  let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '' };
+  let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '', editing:false };
 
   const [items, setItem] = useState(initItems)
 
