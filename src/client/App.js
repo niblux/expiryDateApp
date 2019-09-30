@@ -8,21 +8,13 @@ import { makeRequest } from '../helpers'
 
 const App = () => {
 
-  let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '', editing:false };
+  let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '', editing: false };
 
   const [items, setValues] = useState(initItems);
-  const [editing, setEditing] = useState({value:'', isEditing:false});
   const [currentItem, setCurrentItem] = useState(initItems)
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    // setCurrentItem({ ...items, [e.target.name]: e.target.value })
-  }
-
-  const editingRow = (item) => {    
-
-    
-    // setEditing(true);
+  const editingRow = (item) => {
+    setEditing(true);
     // setCurrentItem({ foodName: item.foodName, foodType: item.foodType, purchaseDate: item.purchaseDate, expiryDate: item.expiryDate, notes: item.notes });
   }
 
@@ -37,9 +29,8 @@ const App = () => {
 
   const updateItems = async (currentItem) => {
     console.log('fe item', currentItem);
-    setEditing(false);
     items.map(item => {
-      if(currentItem._id === item._id) {
+      if (currentItem._id === item._id) {
         setValues([...items, currentItem]);
       }
     });
@@ -114,7 +105,7 @@ const App = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <TableRow editing={editing} items={items} ></TableRow>
+                  <TableRow updateItems={updateItems} items={items} ></TableRow>
                 </tbody>
               </table>
             </div>

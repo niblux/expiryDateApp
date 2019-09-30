@@ -54,12 +54,24 @@ exports.updateRecord = async (req, res) => {
   //   res.json(req.params);
   //   console.log('>>> UPDATED', );
   // }, { new: false });
-
-  // res.send(record);
-
-  // 2. Update that record
-
-
-  // 3. Return the corrected result.
 }
+
+// businessRoutes.route('/update/:id').post(function (req, res) {
+//   Business.findById(req.params.id, function(err, business) {
+//   if (!business)
+//     res.status(404).send("data is not found");
+//   else {
+//       business.person_name = req.body.person_name;
+//       business.business_name = req.body.business_name;
+//       business.business_gst_number = req.body.business_gst_number;
+
+//       business.save().then(business => {
+//         res.json('Update complete');
+//     })
+//     .catch(err => {
+//           res.status(400).send("unable to update the database");
+//     });
+//   }
+// });
+// });
 
