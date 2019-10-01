@@ -27,24 +27,21 @@ const App = () => {
       .catch(error => console.error(error));
   }
 
-  const updateItems = async (currentItem) => {
-    console.log('fe item', currentItem);
-    items.map(item => {
-      if (currentItem._id === item._id) {
-        setValues([...items, currentItem]);
-      }
-    });
-    // makeRequest(`http://localhost:8080/update/${updatedItem._id}`, "PUT", updatedItem)
-    //   .then(data => {
-    //     console.log('POSTED DATA', data)
-    //   })
-    //   .catch(error => console.error(error));
-    // setValues(items.map(item => (item._id === updatedItem._id ? updatedItem : item)))
-  }
+  // const updateItems = async (currentItem) => {
+  //   console.log('fe item', currentItem);
+  //   items.map(item => {
+  //     if (currentItem._id === item._id) {
+  //       setValues([...items, currentItem]);
+  //     }
+  //   });
+  //   // makeRequest(`http://localhost:8080/update/${updatedItem._id}`, "PUT", updatedItem)
+  //   //   .then(data => {
+  //   //     console.log('POSTED DATA', data)
+  //   //   })
+  //   //   .catch(error => console.error(error));
+  //   // setValues(items.map(item => (item._id === updatedItem._id ? updatedItem : item)))
+  // }
 
-  useEffect(() => {
-    setCurrentItem(currentItem)
-  }, [currentItem]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -105,7 +102,7 @@ const App = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <TableRow updateItems={updateItems} items={items} ></TableRow>
+                  <TableRow items={items} ></TableRow>
                 </tbody>
               </table>
             </div>
