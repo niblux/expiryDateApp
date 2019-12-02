@@ -19,7 +19,6 @@ const App = () => {
   }
 
   const addItems = (e, payload) => {
-    console.log('PAYLOAD ADD', payload);
     e.preventDefault();
     setValues([...items, payload]);
     makeRequest('http://localhost:8080/create', "POST", payload)
@@ -47,7 +46,6 @@ const App = () => {
     const fetchData = async () => {
       const request = await fetch('http://localhost:8080/items');
       const data = await request.json();
-      console.log('data', data);
       setValues(data);
     };
     fetchData();
@@ -102,7 +100,7 @@ const App = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <TableRow items={items} ></TableRow>
+                  <TableRow deleteUser={deleteUser} items={items} ></TableRow>
                 </tbody>
               </table>
             </div>
