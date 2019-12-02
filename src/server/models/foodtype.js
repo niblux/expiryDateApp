@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-const holidayModel = new mongoose.Schema({
+const foodModel = new mongoose.Schema({
   foodName: String,
   foodType: String,
   purchaseDate: Date,
@@ -10,4 +10,4 @@ const holidayModel = new mongoose.Schema({
   notes: String
 });
 
-module.exports = mongoose.model('Holiday', holidayModel);
+module.exports = mongoose.model('FoodType', foodModel);

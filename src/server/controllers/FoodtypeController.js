@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-require('../models/holiday');
-const Holiday = mongoose.model('Holiday');
+require('../models/foodtype');
+const FoodType = mongoose.model('FoodType');
 
 exports.myMiddleware = (req, res, next) => {
   if (req.params.name.length > 4) {
@@ -11,29 +11,26 @@ exports.myMiddleware = (req, res, next) => {
 };
 
 exports.items = (req, res) => {
-  Holiday.find({}, function (err, items) {
+  FoodType.find({}, function (err, items) {
     if (!err) {
-      // console.log(items);
       res.send(JSON.stringify(items));
     } else { throw err; }
   });
 };
 
 exports.create = async (req, res) => {
-  const holiday = new Holiday(req.body);
-  // so your saying await , to say await until i do this action with Await in front before u carry on
-  // not nessacrily , basically the await returns a promise from an asynchrounous fucntion
-  await holiday.save(function (err) {
+  const foodType = new FoodType(req.body);
+  await foodType.save(function (err) {
     if (err) { console.log('Error saving model'); return err; }
     console.log('saved');
   });
   res.json(req.params);
-  // console.log('POSTING', req.body);
+  console.log('POSTING', req.body);
 };
 
 exports.delete = async (req, res) => {
   console.log('id', req.params)
-  Holiday.findByIdAndRemove(req.params.id, (err) => {
+  FoodType.findByIdAndRemove(req.params.id, (err) => {
     if (err) { console.log('Error saving model'); return err; }
   });
   res.json(req.params);
@@ -45,7 +42,7 @@ exports.updateRecord = async (req, res) => {
   console.log('test params id', req.params.id);
   console.log('test request body', req.body);
 
-  let doc = await Holiday.findOneAndUpdate(req.params.id, req.body);
+  let doc = await FoodType.findOneAndUpdate(req.params.id, req.body);
 
   console.log(doc);
 

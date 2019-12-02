@@ -3,7 +3,7 @@ const os = require('os');
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const holidayController = require('./controllers/HolidayController');
+const FoodtypeController = require('./controllers/FoodtypeController');
 var cors = require('cors');
 
 
@@ -37,15 +37,15 @@ app.use(cors());
 app.set('views', path.join(__dirname, '../views')); // this is the folder where we keep our pug files
 app.set('view engine', 'pug'); // we use the engine pug, mustache or EJS work great too
 
-require('./models/holiday');
+require('./models/foodtype');
 
 // TODO: Place routes here for now
-app.get('/items', holidayController.items);
+app.get('/items', FoodtypeController.items);
 
-app.post('/create', holidayController.create);
+app.post('/create', FoodtypeController.create);
 
-app.put('/create/:id', holidayController.updateRecord);
+app.put('/create/:id', FoodtypeController.updateRecord);
 
-app.put('/update/:id', holidayController.updateRecord);
+app.put('/update/:id', FoodtypeController.updateRecord);
 
-app.delete('/delete/:id', holidayController.delete);
+app.delete('/delete/:id', FoodtypeController.delete);
