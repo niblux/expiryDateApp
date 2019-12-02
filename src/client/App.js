@@ -24,6 +24,7 @@ const App = () => {
     makeRequest('http://localhost:8080/create', "POST", payload)
       .then(data => console.log('POSTED DATA', data))
       .catch(error => console.error(error));
+    e.target.reset();
   }
 
   // const updateItems = async (currentItem) => {
