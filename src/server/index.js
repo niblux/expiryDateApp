@@ -44,8 +44,8 @@ app.get('/items', FoodtypeController.items);
 
 app.post('/create', FoodtypeController.create);
 
-app.put('/create/:id', FoodtypeController.updateRecord);
+// app.put('/create/:id', FoodtypeController.updateRecord);
 
-app.put('/update/:id', FoodtypeController.updateRecord);
+app.put('/update/:id', FoodtypeController.update);
 
 app.delete('/delete/:id', FoodtypeController.delete);
