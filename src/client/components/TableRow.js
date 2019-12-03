@@ -12,16 +12,17 @@ const TableRow = (props) => {
     let newArr = [...updatedItems]; // copying the old datas array
     const newVal = newArr[index][e.target.name] = e.target.value; 
     setItems([...newArr], newVal);
-    console.log('id from update', newArr[index]._id)
-    setItemId(newArr[index]._id);
+    console.log('new value in handleEditing  ', newArr[index])
+    setItemId(newArr[index]);
   }
 
 
   const saveItems = () => {
-    console.log('most recent state', updatedItems);
-    console.log('id to update', itemUpdated);
-    makeRequest(`http://localhost:8080/update/${itemUpdated}`, "PUT", updatedItems)
-    .then(data => console.log('POSTED DATA', data))
+    // console.log('most recent state', updatedItems);
+    // TODO: I could handle multiple items on the backend.
+    console.log('item being updated', itemUpdated);
+    makeRequest(`http://localhost:8080/update/${itemUpdated._id}`, "PUT", updatedItems)
+    .then(data => console.log('POSTED DATA in UPDATE', data))
     .catch(error => console.error(error));
   }
 

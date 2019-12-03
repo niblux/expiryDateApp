@@ -80,7 +80,7 @@ const App = () => {
           </div>
         </section>
 
-        <div className="container-fluid">
+        <div className="container">
           <div className="row text-left">
             <div className="col-md-4">
               <div className="card">

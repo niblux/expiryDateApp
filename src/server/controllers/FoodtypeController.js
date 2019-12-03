@@ -37,20 +37,29 @@ exports.delete = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  // mongoose.set('useFindAndModify', false);
+  mongoose.set('useFindAndModify', false);
   // 1. find the id we want to update
-  // console.log('test params id', req.params.id);
-  // console.log('test request body', req.body);
+  console.log('test params id', req.params.id);
+  console.log('test request body', req.body);
 
-  let doc = await FoodType.findOneAndUpdate(req.params.id, req.body);
+  let itemToUpdate = {};
 
-  console.log('SAVED', doc);
+  console.log(req.body.length);
 
-  // Holiday.findOneAndUpdate(req.params.id, req.body, (err) => {
+  if(req.body.length > 1) {
+    itemToUpdate = req.body.find(r => r._id === req.params.id);
+  } 
+
+  // itemToUpdate = req.body;
+
+  let doc = await FoodType.findOneAndUpdate(req.params.id, itemToUpdate);
+
+  // console.log('SAVED', doc);
+
+  // FoodType.findOneAndUpdate(req.params.id, itemToUpdate, (err) => {
   //   if (err) { console.log('Error saving model'); return err; }
-  //   res.json(req.params);
-  //   console.log('>>> UPDATED', );
   // }, { new: false });
+  // res.json(req.params);
 }
 
 // businessRoutes.route('/update/:id').post(function (req, res) {
