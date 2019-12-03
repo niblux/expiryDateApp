@@ -30,7 +30,7 @@ const App = () => {
   // const updateItems = async (currentItem) => {
   //   console.log('fe item', currentItem);
   //   items.map(item => {
-  //     if (currentItem._id === item._id) {
+  //     if (currentItem._id === item._id) {w
   //       setValues([...items, currentItem]);
   //     }
   //   });

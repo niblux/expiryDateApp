@@ -36,15 +36,15 @@ exports.delete = async (req, res) => {
   res.json(req.params);
 };
 
-exports.updateRecord = async (req, res) => {
-  mongoose.set('useFindAndModify', false);
+exports.update = async (req, res) => {
+  // mongoose.set('useFindAndModify', false);
   // 1. find the id we want to update
-  console.log('test params id', req.params.id);
-  console.log('test request body', req.body);
+  // console.log('test params id', req.params.id);
+  // console.log('test request body', req.body);
 
   let doc = await FoodType.findOneAndUpdate(req.params.id, req.body);
 
-  console.log(doc);
+  console.log('SAVED', doc);
 
   // Holiday.findOneAndUpdate(req.params.id, req.body, (err) => {
   //   if (err) { console.log('Error saving model'); return err; }

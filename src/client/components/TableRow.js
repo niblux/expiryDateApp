@@ -1,19 +1,28 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { makeRequest } from '../../helpers';
 
 const TableRow = (props) => {
 
   let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '', editing:true };
   const [updatedItems, setItems] = useState(initItems);
+  const [itemUpdated, setItemId] = useState('');
 
   // this function is saving the updated data
   const handleEditing = (e, index) => {
     let newArr = [...updatedItems]; // copying the old datas array
-    newArr[index][e.target.name] = e.target.value; 
-    setItems(newArr);
+    const newVal = newArr[index][e.target.name] = e.target.value; 
+    setItems([...newArr], newVal);
+    console.log('id from update', newArr[index]._id)
+    setItemId(newArr[index]._id);
   }
+
 
   const saveItems = () => {
     console.log('most recent state', updatedItems);
+    console.log('id to update', itemUpdated);
+    makeRequest(`http://localhost:8080/update/${itemUpdated}`, "PUT", updatedItems)
+    .then(data => console.log('POSTED DATA', data))
+    .catch(error => console.error(error));
   }
 
   // this function is setting the row to editable
