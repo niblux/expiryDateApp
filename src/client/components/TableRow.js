@@ -9,17 +9,14 @@ const TableRow = (props) => {
 
   // this function is saving the updated data
   const handleEditing = (e, index) => {
-    let newArr = [...updatedItems]; // copying the old datas array
-    const newVal = newArr[index][e.target.name] = e.target.value; 
-    setItems([...newArr], newVal);
-    console.log('new value in handleEditing  ', newArr[index])
-    setItemId(newArr[index]);
+    // let newArr = [...updatedItems]; // copying the old datas array
+    const newVal = updatedItems[index][e.target.name] = e.target.value; 
+    setItems([...updatedItems], newVal);
+    setItemId(updatedItems[index]);
   }
 
-
   const saveItems = () => {
-    // console.log('most recent state', updatedItems);
-    // TODO: I could handle multiple items on the backend.
+    setItems(items)
     console.log('item being updated', itemUpdated);
     makeRequest(`http://localhost:8080/update/${itemUpdated._id}`, "PUT", updatedItems)
     .then(data => console.log('POSTED DATA in UPDATE', data))
@@ -27,7 +24,7 @@ const TableRow = (props) => {
   }
 
   // this function is setting the row to editable
-  const seEditing = (item, index) => {
+  const setEditing = (item, index) => {
     const items = props.items.map(i => ({ ...i, editing: item.editing && i === item }))
     items[index].editing = true;
     setItems(items);
@@ -39,17 +36,17 @@ const TableRow = (props) => {
 
   return (
     props.items.length > 0 ? (props.items.map((item, index) => (
-      <tr key={item._id} onClick={(e) => {seEditing(item, index)}}>
+      <tr key={item._id}>
         <td>{item.editing ? <input name="foodName" type="text" onChange={(e) => 
           { handleEditing(e, index) }} defaultValue={item.foodName} /> : item.foodName}
         </td>
         <td>{item.editing ? <input name="foodType" type="text" onChange={(e) => 
             { handleEditing(e, index) }} defaultValue={item.foodType} /> : item.foodType}
         </td>
-        <td>{item.editing ? <input name="purchaseDate" type="text" onChange={(e) => 
+        <td>{item.editing ? <input name="purchaseDate" type="date" onChange={(e) => 
           { handleEditing(e, index) }} defaultValue={item.purchaseDate} /> : item.purchaseDate}
         </td>
-        <td>{item.editing ? <input name="expiryDate" type="text" onChange={(e) => 
+        <td>{item.editing ? <input name="expiryDate" type="date" onChange={(e) => 
           { handleEditing(e, index) }} defaultValue={item.expiryDate} /> : item.expiryDate}
         </td>
         <td>{item.editing ? <input name="notes" type="text" onChange={(e) => 
@@ -62,7 +59,7 @@ const TableRow = (props) => {
         </td>
         <td>
           <button type="button" onClick={(e) => 
-          { !item.editing ? item.editing = true : '' || seEditing(item, index) }} className="btn btn-info">Edit
+          { !item.editing ? item.editing = true : '' || setEditing(item, index) }} className="btn btn-info">Edit
           </button>
         </td>
         <td><button type="button" onClick={saveItems} className="btn btn-success">Save</button></td>
