@@ -3,9 +3,10 @@ import { makeRequest } from '../../helpers';
 
 const TableRow = (props) => {
 
-  let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '', editing:true };
-  const [updatedItems, setItems] = useState(initItems);
+  let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '', editing:false };
+  const [updatedItems, setItems] = useState(updatedItems);
   const [itemUpdated, setItemId] = useState('');
+  const [editFlag, setEditFlag] = useState(false);
 
   // this function is saving the updated data
   const handleEditing = (e, index) => {
@@ -16,6 +17,7 @@ const TableRow = (props) => {
   }
 
   const saveItems = () => {
+    setEditFlag(false);
     setItems(updatedItems)
     console.log('item being updated', itemUpdated);
     makeRequest(`http://localhost:8080/update/${itemUpdated._id}`, "PUT", updatedItems)
@@ -25,31 +27,38 @@ const TableRow = (props) => {
 
   // this function is setting the row to editable
   const setEditing = (item, index) => {
+    setEditFlag(true);
     const items = props.items.map(i => ({ ...i, editing: item.editing && i === item }))
+    console.log('items', items);
     items[index].editing = true;
     setItems(items);
   }
 
-  // useEffect(() => {
-  //   console.log('useEffect', updatedItems);
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const request = await fetch('http://localhost:8080/items');
+      const data = await request.json();
+      setItems(data);
+    };
+    fetchData();
+  }, []);
 
   return (
     props.items.length > 0 ? (props.items.map((item, index) => (
       <tr key={item._id}>
-        <td>{item.editing ? <input name="foodName" type="text" onChange={(e) => 
+        <td>{editFlag ? <input name="foodName" type="text" onChange={(e) => 
           { handleEditing(e, index) }} defaultValue={item.foodName} /> : item.foodName}
         </td>
-        <td>{item.editing ? <input name="foodType" type="text" onChange={(e) => 
+        <td>{editFlag ? <input name="foodType" type="text" onChange={(e) => 
             { handleEditing(e, index) }} defaultValue={item.foodType} /> : item.foodType}
         </td>
-        <td>{item.editing ? <input name="purchaseDate" type="date" onChange={(e) => 
+        <td>{editFlag ? <input name="purchaseDate" type="date" onChange={(e) => 
           { handleEditing(e, index) }} defaultValue={item.purchaseDate} /> : item.purchaseDate}
         </td>
-        <td>{item.editing ? <input name="expiryDate" type="date" onChange={(e) => 
+        <td>{editFlag ? <input name="expiryDate" type="date" onChange={(e) => 
           { handleEditing(e, index) }} defaultValue={item.expiryDate} /> : item.expiryDate}
         </td>
-        <td>{item.editing ? <input name="notes" type="text" onChange={(e) => 
+        <td>{editFlag ? <input name="notes" type="text" onChange={(e) => 
           { handleEditing(e, index) }} defaultValue={item.notes} /> : item.notes}
         </td>
         <td>
@@ -58,8 +67,7 @@ const TableRow = (props) => {
           </button>
         </td>
         <td>
-          <button type="button" onClick={(e) => 
-          { !item.editing ? item.editing = true : '' || setEditing(item, index) }} className="btn btn-info">Edit
+          <button type="button" onClick={(e) => setEditing(item, index) } className="btn btn-info">Edit
           </button>
         </td>
         <td><button type="button" onClick={saveItems} className="btn btn-success">Save</button></td>
