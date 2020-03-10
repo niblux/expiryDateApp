@@ -16,7 +16,7 @@ const TableRow = (props) => {
   }
 
   const saveItems = () => {
-    setItems(items)
+    setItems(updatedItems)
     console.log('item being updated', itemUpdated);
     makeRequest(`http://localhost:8080/update/${itemUpdated._id}`, "PUT", updatedItems)
     .then(data => console.log('POSTED DATA in UPDATE', data))

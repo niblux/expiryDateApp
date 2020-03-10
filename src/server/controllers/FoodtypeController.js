@@ -52,7 +52,7 @@ exports.update = async (req, res) => {
 
   // itemToUpdate = req.body;
 
-  let doc = await FoodType.findOneAndUpdate(req.params.id, itemToUpdate);
+  let doc = await FoodType.findOneAndUpdate(itemToUpdate.id, itemToUpdate);
 
   // console.log('SAVED', doc);
 
