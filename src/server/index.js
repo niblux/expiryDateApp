@@ -15,12 +15,11 @@ app.get('/getUsername', (req, res) => res.send({ username: os.userInfo().usernam
 
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
 
-// import environmental variables from our variables.env file
 require('dotenv').config({ path: 'variables.env' });
 
 // Connect to our Database and handle any bad connections
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, keepAlive: true });
-mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
+mongoose.Promise = global.Promise;
 mongoose.connection.on('error', (err) => {
   console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
 });
@@ -34,8 +33,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // view engine setup
-app.set('views', path.join(__dirname, '../views')); // this is the folder where we keep our pug files
-app.set('view engine', 'pug'); // we use the engine pug, mustache or EJS work great too
+app.set('views', path.join(__dirname, '../views'));
+app.set('view engine', 'pug'); 
 
 require('./models/foodtype');
 
@@ -43,8 +42,6 @@ require('./models/foodtype');
 app.get('/items', FoodtypeController.items);
 
 app.post('/create', FoodtypeController.create);
-
-// app.put('/create/:id', FoodtypeController.updateRecord);
 
 app.put('/update/:id', FoodtypeController.update);
 

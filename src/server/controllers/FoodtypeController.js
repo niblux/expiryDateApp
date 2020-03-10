@@ -38,46 +38,14 @@ exports.delete = async (req, res) => {
 
 exports.update = async (req, res) => {
   mongoose.set('useFindAndModify', false);
-  // 1. find the id we want to update
-  console.log('test params id', req.params.id);
-  console.log('test request body', req.body);
-
   let itemToUpdate = {};
 
-  console.log(req.body.length);
-
+  // find the id i want to update
   if(req.body.length > 1) {
     itemToUpdate = req.body.find(r => r._id === req.params.id);
   } 
 
-  // itemToUpdate = req.body;
-
   let doc = await FoodType.findOneAndUpdate(itemToUpdate.id, itemToUpdate);
-
-  // console.log('SAVED', doc);
-
-  // FoodType.findOneAndUpdate(req.params.id, itemToUpdate, (err) => {
-  //   if (err) { console.log('Error saving model'); return err; }
-  // }, { new: false });
-  // res.json(req.params);
 }
 
-// businessRoutes.route('/update/:id').post(function (req, res) {
-//   Business.findById(req.params.id, function(err, business) {
-//   if (!business)
-//     res.status(404).send("data is not found");
-//   else {
-//       business.person_name = req.body.person_name;
-//       business.business_name = req.body.business_name;
-//       business.business_gst_number = req.body.business_gst_number;
-
-//       business.save().then(business => {
-//         res.json('Update complete');
-//     })
-//     .catch(err => {
-//           res.status(400).send("unable to update the database");
-//     });
-//   }
-// });
-// });
 

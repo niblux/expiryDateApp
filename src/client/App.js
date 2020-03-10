@@ -15,7 +15,6 @@ const App = () => {
 
   const editingRow = (item) => {
     setEditing(true);
-    // setCurrentItem({ foodName: item.foodName, foodType: item.foodType, purchaseDate: item.purchaseDate, expiryDate: item.expiryDate, notes: item.notes });
   }
 
   const addItems = (e, payload) => {
@@ -26,21 +25,6 @@ const App = () => {
       .catch(error => console.error(error));
     e.target.reset();
   }
-
-  // const updateItems = async (currentItem) => {
-  //   console.log('fe item', currentItem);
-  //   items.map(item => {
-  //     if (currentItem._id === item._id) {w
-  //       setValues([...items, currentItem]);
-  //     }
-  //   });
-  //   // makeRequest(`http://localhost:8080/update/${updatedItem._id}`, "PUT", updatedItem)
-  //   //   .then(data => {
-  //   //     console.log('POSTED DATA', data)
-  //   //   })
-  //   //   .catch(error => console.error(error));
-  //   // setValues(items.map(item => (item._id === updatedItem._id ? updatedItem : item)))
-  // }
 
 
   useEffect(() => {
