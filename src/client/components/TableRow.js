@@ -27,10 +27,10 @@ const TableRow = (props) => {
 
   // this function is setting the row to editable
   const setEditing = (item, index) => {
-    setEditFlag(true);
     const items = props.items.map(i => ({ ...i, editing: item.editing && i === item }))
     console.log('items', items);
     items[index].editing = true;
+    setEditFlag(true);
     setItems(items);
   }
 
