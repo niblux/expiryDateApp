@@ -21,8 +21,11 @@ const App = () => {
     e.preventDefault();
     setValues([...items, payload]);
     makeRequest('http://localhost:8080/create', "POST", payload)
-      .then(data => console.log('POSTED DATA', data))
+      .then(data => data)
+      // .then(data)
       .catch(error => console.error(error));
+    console.log('state', items)
+
     e.target.reset();
   }
 
@@ -32,7 +35,9 @@ const App = () => {
       const request = await fetch('http://localhost:8080/items');
       const data = await request.json();
       setValues(data);
+      // console.log('am i being run APP JS', data);
     };
+    console.log('state', items)
     fetchData();
   }, []);
 

@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
+import React from 'react';
 
 const FormComponent = props => {
 
@@ -9,7 +10,7 @@ const FormComponent = props => {
   let expiryDate = React.createRef();
   let notes = React.createRef();
 
-  let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '', editing:false };
+  let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '', editing: false };
 
   const [items, setItem] = useState(initItems)
 

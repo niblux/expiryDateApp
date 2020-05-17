@@ -41,9 +41,9 @@ exports.update = async (req, res) => {
   let itemToUpdate = {};
 
   // find the id i want to update
-  if(req.body.length > 1) {
+  if (req.body.length >= 1) {
     itemToUpdate = req.body.find(r => r._id === req.params.id);
-  } 
+  }
 
   let doc = await FoodType.findOneAndUpdate(itemToUpdate.id, itemToUpdate);
 }

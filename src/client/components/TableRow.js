@@ -3,7 +3,7 @@ import { makeRequest } from '../../helpers';
 
 const TableRow = (props) => {
 
-  let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '', editing:false };
+  let initItems = { foodName: '', foodType: '', purchaseDate: '', expiryDate: '', notes: '', editing: false };
   const [updatedItems, setItems] = useState(updatedItems);
   const [itemUpdated, setItemId] = useState('');
   const [editFlag, setEditFlag] = useState(false);
@@ -11,18 +11,19 @@ const TableRow = (props) => {
   // this function is saving the updated data
   const handleEditing = (e, index) => {
     // let newArr = [...updatedItems]; // copying the old datas array
-    const newVal = updatedItems[index][e.target.name] = e.target.value; 
+    const newVal = updatedItems[index][e.target.name] = e.target.value;
     setItems([...updatedItems], newVal);
     setItemId(updatedItems[index]);
   }
 
-  const saveItems = () => {
+  const saveItems = async () => {
     setEditFlag(false);
     setItems(updatedItems)
-    console.log('item being updated', itemUpdated);
-    makeRequest(`http://localhost:8080/update/${itemUpdated._id}`, "PUT", updatedItems)
-    .then(data => console.log('POSTED DATA in UPDATE', data))
-    .catch(error => console.error(error));
+    // console.log('item being updated', itemUpdated);
+    const res = await makeRequest(`http://localhost:8080/update/${itemUpdated._id}`, "PUT", updatedItems)
+    // console.log('res', res);
+    // .then(data => console.log('POSTED DATA in UPDATE', data))
+    // .catch(error => console.error(error));
   }
 
   // this function is setting the row to editable
@@ -38,6 +39,7 @@ const TableRow = (props) => {
     const fetchData = async () => {
       const request = await fetch('http://localhost:8080/items');
       const data = await request.json();
+      // console.log('am i being run', data);
       setItems(data);
     };
     fetchData();
@@ -46,28 +48,23 @@ const TableRow = (props) => {
   return (
     props.items.length > 0 ? (props.items.map((item, index) => (
       <tr key={item._id}>
-        <td>{editFlag ? <input name="foodName" type="text" onChange={(e) => 
-          { handleEditing(e, index) }} defaultValue={item.foodName} /> : item.foodName}
+        <td>{editFlag ? <input name="foodName" type="text" onChange={(e) => { handleEditing(e, index) }} defaultValue={item.foodName} /> : item.foodName}
         </td>
-        <td>{editFlag ? <input name="foodType" type="text" onChange={(e) => 
-            { handleEditing(e, index) }} defaultValue={item.foodType} /> : item.foodType}
+        <td>{editFlag ? <input name="foodType" type="text" onChange={(e) => { handleEditing(e, index) }} defaultValue={item.foodType} /> : item.foodType}
         </td>
-        <td>{editFlag ? <input name="purchaseDate" type="date" onChange={(e) => 
-          { handleEditing(e, index) }} defaultValue={item.purchaseDate} /> : item.purchaseDate}
+        <td>{editFlag ? <input name="purchaseDate" type="date" onChange={(e) => { handleEditing(e, index) }} defaultValue={item.purchaseDate} /> : item.purchaseDate}
         </td>
-        <td>{editFlag ? <input name="expiryDate" type="date" onChange={(e) => 
-          { handleEditing(e, index) }} defaultValue={item.expiryDate} /> : item.expiryDate}
+        <td>{editFlag ? <input name="expiryDate" type="date" onChange={(e) => { handleEditing(e, index) }} defaultValue={item.expiryDate} /> : item.expiryDate}
         </td>
-        <td>{editFlag ? <input name="notes" type="text" onChange={(e) => 
-          { handleEditing(e, index) }} defaultValue={item.notes} /> : item.notes}
+        <td>{editFlag ? <input name="notes" type="text" onChange={(e) => { handleEditing(e, index) }} defaultValue={item.notes} /> : item.notes}
         </td>
         <td>
-          <button onClick={() => 
+          <button onClick={() =>
             props.deleteUser(item._id)} type="button" className="btn btn-danger">Delete
           </button>
         </td>
         <td>
-          <button type="button" onClick={(e) => setEditing(item, index) } className="btn btn-info">Edit
+          <button type="button" onClick={(e) => setEditing(item, index)} className="btn btn-info">Edit
           </button>
         </td>
         <td><button type="button" onClick={saveItems} className="btn btn-success">Save</button></td>
